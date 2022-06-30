@@ -1,0 +1,254 @@
+klasa VECTOR
+
+using System;
+
+namespace LinearAlgebra
+{
+    public class Vector
+    {
+        public int I {get; private set;}
+        public int J{get; private set;}
+        public int K{get; private set;}
+
+        public Vector () {}
+
+        public Vector (int i, int j, int k) {
+            I=i;
+            J=j;
+            K=k;
+        }
+
+        public override string ToString() {
+            return $" {I}i + {J}j + {K}k";
+        }
+
+        public double CalculateEuclid() {
+            return Math.Sqrt(I*I + J*J + K*K);
+        }
+    }
+}
+
+klasa VECTORMATH
+
+using System;
+using LinearAlgebra;
+
+namespace LinearAlgebra.Mathh
+{
+    public static class VectorMath {
+
+    public static double CalculateDotProduct(Vector vector1, Vector vector2) {
+       return vector1.I*vector2.I + vector1.J*vector2.J + vector1.K*vector2.K;
+        }
+
+    public static double CalculateAngle(Vector vector1, Vector vector2) {
+        double sin = vector1.I * vector2.J - vector2.I * vector1.J;
+        double cos = vector1.I * vector2.I + vector1.J * vector2.J;
+       return Math.Atan2(sin, cos) * (180/Math.PI);
+
+    }
+    
+    }
+}
+
+TESTER KALSA
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LinearAlgebra;
+using LinearAlgebra.Mathh;
+
+namespace Test
+{
+    public class Tester
+    {
+        public void Run()
+        {
+            // Ispis vektora i Euklidove norme
+            Vector vector = new Vector(1, 2, 3);
+            vector.ToString();
+            Console.WriteLine("Vector is: " + vector);
+            Console.WriteLine("Euclidean norm: " + vector.CalculateEuclid());
+            Console.WriteLine("\n");
+
+            Vector vector1 = new Vector(1, 2, 3);
+            Vector vector2 = new Vector(2, 5, 5);
+
+            vector1.I = 13;
+            vector2.I = 17;
+
+            //Ispis moja dva vektora
+            Console.WriteLine("First vector: " + vector1);
+            Console.WriteLine("Second vector: " + vector2 + "\n");
+            
+            //Ispis skalarnog produkta i kuta izmedju dva vektora
+            double dotProduct = VectorMath.CalculateDotProduct(vector1, vector2);
+            double angle = VectorMath.CalculateAngle(vector1, vector2);
+            Console.WriteLine("Dot product is: " + dotProduct);
+            Console.WriteLine("Angle between two vectors is: " + angle);
+
+        }
+    }
+}
+
+
+program
+
+using System;
+using LinearAlgebra;
+using LinearAlgebra.Mathh;
+
+  Vector vector = new Vector(1, 2, 3);
+            vector.ToString();
+            // Ispis vektora i Euklidove norme
+            Console.WriteLine("Vector is: " + vector);
+            Console.WriteLine("Euclidean norm: " + vector.CalculateEuclid());
+
+            Vector vector1 = new Vector(1, 1, 1);
+            Vector vector2 = new Vector(2, 2, 2);
+            double rez=Vector.Math.CalculateDotProduct(vector1,vector2);
+	    Console.WriteLine(rez);
+
+
+******************************DRUGI***************************************
+klasa TROKUT
+
+using System;
+using System.Collections.Generic;
+
+namespace LV5
+{
+    public class Triangle
+    {
+        public int A { get; private set;}
+        public int B { get; private set;}
+        public int C { get; private set;}
+
+        public Triangle(): this (1, 1, 1){}
+
+        public Triangle (int a, int b, int c) {
+            A=a;
+            B=b;
+            C=c;
+        }
+
+        public override string ToString() {
+            return $" {A} + {B} + {C}";
+        }
+
+        public double CalculateArea(){
+            return A+B+C;
+        }
+
+        public double CalculateVolume(){
+            double s=(A+B+C)/2;
+            return Math.Sqrt(s*(s-A)*(s-B)*(s-C));
+        }
+
+        public bool IsRightTriangle() {
+            double temp = A*A + B*B;
+            double hypotenuse=C*C;
+            if(temp==hypotenuse)
+            return true;
+            else return false;
+        }
+
+          public List<Triangle> triangles=new List<Triangle>();
+
+          public Triangle IsItReallyTriangle(){
+              foreach(Triangle triangle in triangles)
+              {
+                  if(A+B<=C || A+C<=B || B+C<=A) return triangle;
+              }
+            throw new GeometryException($"Error: triangle inequality!");
+              
+    
+         }
+    }
+}
+
+
+klasa IZNIMKA
+
+using System;
+using System.Runtime.Serialization;
+
+namespace LV5
+{
+    [Serializable]
+    public class GeometryException : Exception
+    {
+        public GeometryException(){}
+        public GeometryException(string message) : 
+        base(message) {}
+        public GeometryException(string message, Exception innerException) : 
+        base(message, innerException){}
+        protected GeometryException(SerializationInfo info, StreamingContext context) :
+        base(info, context){}
+
+
+    }
+}
+
+
+program
+
+using System;
+using LinearAlgebra;
+using LinearAlgebra.Mathh;
+using LV5;
+
+namespace Test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /*        ****PRVI*****
+            Vector vector = new Vector(1, 2, 3);
+            vector.ToString();
+            // Ispis vektora i Euklidove norme
+            Console.WriteLine("Vector is: " + vector);
+            Console.WriteLine("Euclidean norm: " + vector.CalculateEuclid());
+
+            Vector vector1 = new Vector(1, 1, 1);
+            Vector vector2 = new Vector(2, 2, 2);
+            double rez=CalculateDotProduct(vector1,vector2);*/
+
+            Program p = new Program();
+            p.Run();
+
+        }
+
+                /*************DRUGI**************/
+               void Run(){
+                   Triangle T1 = new Triangle(1, 1, 1);
+                   Triangle T2 = new Triangle(4, 4, 2);
+                   Triangle T3 = new Triangle(3, 4, 5);
+                   Triangle T4 = new Triangle(1, 2, 3);
+                   try{
+                   Console.WriteLine("\n"+ T1.CalculateArea());
+                   Console.WriteLine(T1.CalculateVolume());
+                   Console.WriteLine(T1.IsRightTriangle() +"\n");
+                   Console.WriteLine(T2.CalculateArea());
+                   Console.WriteLine(T2.CalculateVolume());
+                   Console.WriteLine(T2.IsRightTriangle()+"\n");
+                   Console.WriteLine(T3.CalculateArea());
+                   Console.WriteLine(T3.CalculateVolume());
+                   Console.WriteLine(T3.IsRightTriangle()+"\n");
+                   Console.WriteLine(T4.IsItReallyTriangle());
+                   Console.WriteLine(T4.CalculateArea());
+                   Console.WriteLine(T4.CalculateVolume());
+                   Console.WriteLine(T4.IsRightTriangle());
+                  
+                  }
+                   
+                   catch(GeometryException e){
+                       Console.WriteLine(e.Message);
+                   }
+                
+
+        }
+    }
+}
